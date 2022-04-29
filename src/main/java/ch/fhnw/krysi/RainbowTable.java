@@ -13,7 +13,8 @@ public class RainbowTable {
     private final int                 passwordLength;
     private final int                 chainLength;
     private final char[]              reductionArray;
-    private final Map<String, String> table;
+    private final Map<String, String> table = new HashMap<>();
+
 
     /**
      * Constructor with Parameters to run the RainbowTable, after
@@ -26,7 +27,6 @@ public class RainbowTable {
         this.passwordLength = passwordLength;
         this.chainLength = chainLength;
         this.reductionArray = reductionArray;
-        this.table = new HashMap<>();
 
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println("Length of Passwords: " + passwordLength);
@@ -57,21 +57,22 @@ public class RainbowTable {
     /**
      * Create Passwords to fill the Table
      *
-     * @param num int
+     * @param n int
      * @return String
      */
-    private String createTablePassword(int num) {
+    private String createTablePassword(int n) {
         StringBuilder s = new StringBuilder("0000000");
-        for (int pos = passwordLength - 1; pos >= 0 && num > 0; pos--) {
-            char digit = reductionArray[num % reductionArray.length];
-            s.setCharAt(pos, digit);
-            num = num / reductionArray.length;
+        for (int pos = passwordLength - 1; pos >= 0 && n > 0; pos--) {
+            char c = reductionArray[n % reductionArray.length];
+            s.setCharAt(pos, c);
+            n = n / reductionArray.length;
         }
         return s.toString();
     }
 
     /**
-     * We are going to search the hash aka needle in the haystack
+     * We are going to search the hash aka needle in the haystack and decode it to the passsword
+     * If the Table has not been initialized yet, an Error gets thrown
      *
      * @param needle String
      * @return String
@@ -129,7 +130,6 @@ public class RainbowTable {
         }
         return reduction.toString();
     }
-
 
     /**
      * Calculate MD5 Hash from a given String. Derived from Geeks for Geeks
